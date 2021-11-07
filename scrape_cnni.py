@@ -150,14 +150,13 @@ for url in live_news.url:
     header = []
     for h in subarticles[1:]:
         header.append(h.text)
-
     live_news_out.append(dict(
         url=url,
         headline=headline,
         main_author=author,
         posts=paste(header, "\n\n"),
-        nposts=nposts), ignore_index=True)
+        nposts=nposts))
 
-    live_news_out = pd.DataFrame(live_news_out)
+live_news_out = pd.DataFrame(live_news_out)
 
-    live_news_out.to_csv("live-news-articles.csv")
+live_news_out.to_csv("live-news-articles.csv")
