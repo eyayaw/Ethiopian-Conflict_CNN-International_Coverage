@@ -76,7 +76,7 @@ articles_df['date'] = [date.fromisoformat(
     d.replace("/", "-")) for d in articles_df.date]
 
 articles_df = articles_df[articles_df.date >= conflict_breakout_date]
-articles_df.to_csv('articles-urls.csv')
+articles_df.to_csv('articles-urls.csv', index=False)
 
 # open each article and then scrape headline, author, contributors,
 # release date, modified date ...
@@ -131,8 +131,8 @@ articles_df = articles_df.merge(metadata, on='url')
 video_reports = articles_df[[ 'videos' in u for u in articles_df.url]]
 articles_df = articles_df[[ 'videos' not in u for u in articles_df.url]]
 
-articles_df.to_csv("articles-meta.csv")
-video_reports.to_csv("video-reports.csv")
+articles_df.to_csv("articles-meta.csv", index=False)
+video_reports.to_csv("video-reports.csv", index=False)
 
 # scrape posts under live-news
 live_news_out = []
@@ -160,4 +160,4 @@ for url in live_news.url:
         )
 
 live_news_out = pd.DataFrame(live_news_out)
-live_news_out.to_csv("live-news-articles.csv")
+live_news_out.to_csv("live-news-articles.csv", index=False)
