@@ -4,11 +4,12 @@ import re
 import pandas as pd
 from datetime import date
 from functools import reduce
+import __main__ as main
+interactive = hasattr(main, '__file__')
 
-
+# like R's `paste`
 def paste(ls, collapse=" "):
     return reduce(lambda x, y: str(x) + collapse + str(y), ls)
-
 
 # Google search query
 params = (
@@ -22,11 +23,10 @@ params = (
 )
 
 search_url = f"https://google.com/search?q={params}"
-webbrowser.open(search_url)
-
+if (interactive):
+    webbrowser.open(search_url)
 
 # scrape CNN's coverage of the conflict
-
 query = "Ethiopia+AND+Tigray"
 size = 20
 url = f"https://edition.cnn.com/search?size={size}&q=Ethiopia+AND+Tigray&category=us,politics,world,opinion&sort=newest"
@@ -54,7 +54,6 @@ for article in articles_1:
     container.append(dict(headline=headline, url=link))
 
 # from the second page onwards
-
 for page in range(2, pages+1):
     page_url = url + f"&page={page}&from={size * (page-1)}"
     res = session.get(page_url, headers=headers)
@@ -68,8 +67,8 @@ for page in range(2, pages+1):
 
 articles_df = pd.DataFrame(container)
 
-
 live_news = articles_df[['live-news' in u for u in articles_df.url]]
+
 articles_df = articles_df[['live-news' not in u for u in articles_df.url]]
 articles_df['date'] = [re.search("(\d{4}/\d{2}/\d{2})", u).group(1)
                        for u in articles_df.url]
@@ -77,13 +76,11 @@ articles_df['date'] = [date.fromisoformat(
     d.replace("/", "-")) for d in articles_df.date]
 
 articles_df = articles_df[articles_df.date >= conflict_breakout_date]
-
 articles_df.to_csv('articles-urls.csv')
 
 # open each article and then scrape headline, author, contributors,
 # release date, modified date ...
 subset = ["ethiopia" in u or 'tigray' in u for u in articles_df.url]
-
 metadata = []
 for arturl in articles_df[subset].url:
     r = session.get(arturl, headers=headers)
@@ -97,12 +94,10 @@ for arturl in articles_df[subset].url:
                 r"CNN'?s? [A-Z][a-z]+ [A-Z][a-z]+", author)).strip('"[]"')
         else:
             author = ""
-
     try:
         update_time = r.html.find(".update-time", first=True).text
     except AttributeError:
         update_time = ""
-
     try:
         editorial_source = r.html.find(".el-editorial-source", first=True).text
     except AttributeError:
@@ -111,7 +106,6 @@ for arturl in articles_df[subset].url:
                 '.video__metadata__source-name', first=True).text
         else:
             editorial_source = ""
-
     try:
         contributors = r.html.find(".zn-body__footer", first=True).text
     except AttributeError:
@@ -132,8 +126,15 @@ for arturl in articles_df[subset].url:
         update_time=update_time,
         intro=intro))
 
-articles_df.merge(pd.DataFrame(metadata), on='url').to_csv("articles-meta.csv")
+metadata = pd.DataFrame(metadata)
+articles_df = articles_df.merge(metadata, on='url')
+video_reports = articles_df[[ 'videos' in u for u in articles_df.url]]
+articles_df = articles_df[[ 'videos' not in u for u in articles_df.url]]
 
+articles_df.to_csv("articles-meta.csv")
+video_reports.to_csv("video-reports.csv")
+
+# scrape posts under live-news
 live_news_out = []
 live_news = live_news[['Ethiopia' in u or 'Tigray' in u
                        for u in live_news.headline]]
@@ -155,8 +156,8 @@ for url in live_news.url:
         headline=headline,
         main_author=author,
         posts=paste(header, "\n\n"),
-        nposts=nposts))
+        nposts=nposts)
+        )
 
 live_news_out = pd.DataFrame(live_news_out)
-
 live_news_out.to_csv("live-news-articles.csv")
