@@ -46,12 +46,12 @@ regex = r"(\d{1,}-\d{1,}) out of (\d{1,})"
 displays, out_of = re.findall(regex, count)[0]
 pages = int(out_of) % size
 
-articles_1 = r.html.find('.cnn-search__result-headline')
-container = []
-for article in articles_1:
+search_results_page1 = r.html.find('.cnn-search__result-headline')
+search_results = []
+for article in search_results_page1:
     headline = article.find("h3", first=True).text
     link = "https:" + article.find("h3 > a[href]", first=True).attrs["href"]
-    container.append(dict(headline=headline, url=link))
+    search_results.append(dict(headline=headline, url=link))
 
 # from the second page onwards
 for page in range(2, pages+1):
@@ -63,62 +63,84 @@ for page in range(2, pages+1):
         headline = article.find("h3", first=True).text
         link = "https:" + \
             article.find("h3 > a[href]", first=True).attrs["href"]
-        container.append(dict(headline=headline, url=link))
+        search_results.append(dict(headline=headline, url=link))
 
-articles_df = pd.DataFrame(container)
+search_results = pd.DataFrame(search_results)
 
-live_news = articles_df[['live-news' in u for u in articles_df.url]]
+live_news = search_results[['live-news' in u for u in search_results.url]]
 
-articles_df = articles_df[['live-news' not in u for u in articles_df.url]]
-articles_df['date'] = [re.search("(\d{4}/\d{2}/\d{2})", u).group(1)
-                       for u in articles_df.url]
-articles_df['date'] = [date.fromisoformat(
-    d.replace("/", "-")) for d in articles_df.date]
+search_results = search_results[['live-news' not in u for u in search_results.url]]
+search_results['date'] = [re.search("(\d{4}/\d{2}/\d{2})", u).group(1)
+                       for u in search_results.url]
+search_results['date'] = [date.fromisoformat(
+    d.replace("/", "-")) for d in search_results.date]
 
-articles_df = articles_df[articles_df.date >= conflict_breakout_date]
-articles_df.to_csv('articles-urls.csv', index=False)
+search_results = search_results[search_results.date >= conflict_breakout_date]
+search_results.to_csv('search-results.csv', index=False)
 
 # open each article and then scrape headline, author, contributors,
 # release date, modified date ...
-subset = ["ethiopia" in u or 'tigray' in u for u in articles_df.url]
-metadata = []
-for arturl in articles_df[subset].url:
+subset = ["ethiopia" in u or 'tigray' in u for u in search_results.url]
+Articles = []
+for arturl in search_results[subset].url:
+    if ('videos' not in arturl):
+        r = session.get(arturl, headers=headers)
+        try:
+            author = r.html.find('.metadata__byline__author',
+                                first=True).text.replace("By ", "")
+        except AttributeError:
+            author = ""
+        try:
+            update_time = r.html.find(".update-time", first=True).text
+        except AttributeError:
+            update_time = ""
+        try:
+            editorial_source = r.html.find(".el-editorial-source", first=True).text
+        except AttributeError:
+            editorial_source = ""
+        try:
+            contributors = r.html.find(".zn-body__footer", first=True).text
+        except AttributeError:
+            contributors = ""
+        try:
+            intro = r.html.find(".zn-body__paragraph[class*=speakable]",
+                                first=True).text.strip(editorial_source)
+        except AttributeError:
+            intro = ""
+        Articles.append(dict(
+            url=arturl,
+            author=author,
+            contributors=contributors,
+            editorial_source=editorial_source,
+            update_time=update_time,
+            intro=intro))
+    else:
+        pass
+
+Articles = pd.DataFrame(Articles)
+article_news = search_results.merge(Articles, on='url')
+article_news.to_csv("articles-meta.csv", index=False)
+
+# scrape video reports
+videos = []
+for arturl in search_results[subset and ['videos' in u for u in search_results.url]].url:
     r = session.get(arturl, headers=headers)
     try:
-        author = r.html.find('.metadata__byline__author',
-                             first=True).text.replace("By ", "")
-    except AttributeError:
-        if 'videos' in arturl:
-            author = r.html.find('.media__video-description', first=True).text
-            author = str(re.findall(
+        author = r.html.find('.media__video-description', first=True).text
+        author = str(re.findall(
                 r"CNN'?s? [A-Z][a-z]+ [A-Z][a-z]+", author)).strip('"[]"')
-        else:
-            author = ""
-    try:
-        update_time = r.html.find(".update-time", first=True).text
     except AttributeError:
-        update_time = ""
+        author = ""
     try:
-        editorial_source = r.html.find(".el-editorial-source", first=True).text
-    except AttributeError:
-        if 'videos' in arturl:
-            editorial_source = r.html.find(
+        editorial_source = r.html.find(
                 '.video__metadata__source-name', first=True).text
-        else:
-            editorial_source = ""
-    try:
-        contributors = r.html.find(".zn-body__footer", first=True).text
     except AttributeError:
-        contributors = ""
+        editorial_source = ""
     try:
-        intro = r.html.find(".zn-body__paragraph[class*=speakable]",
-                            first=True).text.strip(editorial_source)
+        intro = r.html.find('.media__video-description', first=True).text
     except AttributeError:
-        if 'videos' in arturl:
-            intro = r.html.find('.media__video-description', first=True).text
-        else:
-            intro = ""
-    metadata.append(dict(
+        intro = ""
+    videos.append(dict(
         url=arturl,
         author=author,
         contributors=contributors,
@@ -126,13 +148,11 @@ for arturl in articles_df[subset].url:
         update_time=update_time,
         intro=intro))
 
-metadata = pd.DataFrame(metadata)
-articles_df = articles_df.merge(metadata, on='url')
-video_reports = articles_df[[ 'videos' in u for u in articles_df.url]]
-articles_df = articles_df[[ 'videos' not in u for u in articles_df.url]]
-
-articles_df.to_csv("articles-meta.csv", index=False)
-video_reports.to_csv("video-reports.csv", index=False)
+video_news = pd.DataFrame(videos)
+video_news = search_results[[ 'videos' in u for u in search_results.url]].\
+    merge(video_news, on='url')
+video_news = video_news.loc[:, video_news.columns!='contributors']
+video_news.to_csv("video-reports.csv", index=False)
 
 # scrape posts under live-news
 live_news_out = []
@@ -140,7 +160,7 @@ live_news = live_news[['Ethiopia' in u or 'Tigray' in u
                        for u in live_news.headline]]
 for url in live_news.url:
     r = session.get(url, headers=headers)
-    r.html.render(sleep=1, scrolldown=10, timeout=1000)
+    r.html.render(sleep=1, scrolldown=20, timeout=2000)
 
     headline = r.html.find(".headline > h1", first=True).text
     author = r.html.find(".headline > div > p[data-type*=byline-area]", first=True).\
@@ -155,7 +175,7 @@ for url in live_news.url:
         url=url,
         headline=headline,
         main_author=author,
-        posts=paste(header, "\n\n"),
+        posts=paste(header, collapse="\n\n"),
         nposts=nposts)
         )
 
