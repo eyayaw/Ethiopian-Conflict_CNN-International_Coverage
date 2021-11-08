@@ -13,10 +13,15 @@ Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/statu
 
 * Produce a list of CNN's stories ever since the conflict broke out, November 4, 2020. 
 
-[x] **Done**: I have managed to scrape news articles that CNN published ever since. You can find the details about these news articles in this [csv file](articles-meta.csv), in the same directory. 
 
+* [x] **Articles**: 
+    I have managed to scrape news articles that CNN published ever since. You can find the details about these news articles in this [csv file](articles-meta.csv), in the same directory. 
 
 CNN does not produce news only in an article form. There are live news coverages with a collection of short "posts" (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)), and video reportings (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn)) as well. This repo contains details about such coverages too. 
+
+* [x] Live-news coverage [here](live-news-articles.csv)
+
+* [x] Video reports [here](video-reports.csv)
 
 
 
