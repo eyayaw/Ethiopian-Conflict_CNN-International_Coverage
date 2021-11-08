@@ -25,6 +25,11 @@ CNN does not produce news only in an article form. There are live news coverages
 
 
 
+## To-Do
+
+* [] Automate with github jobs
+* [] Exploratory analysis, some text analysis
+* [] Do the same for reuters, bbc and co
 
 
 
