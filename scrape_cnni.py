@@ -15,7 +15,7 @@ def paste(ls, collapse=" "):
 params = (
     'site:https://cnn.com+'    # website of CNN
     'after:2020-11-02+'        # since Nov 03, 2020, the war started
-    '"Ethiopia"+AND+"Tigray"+'  # query terms
+    '"Ethiopia"+AND+"Tigray"+' # query terms
     '-"Covid"+-"Nile"+'        # exclude covid and Nile
     "&tbm=nws+"                # search on News tab
     '&lr=lang_en+'             # search in English
@@ -31,8 +31,7 @@ query = "Ethiopia+AND+Tigray"
 size = 20
 url = f"https://edition.cnn.com/search?size={size}&q=Ethiopia+AND+Tigray&category=us,politics,world,opinion&sort=newest"
 #url = f'https://search.api.cnn.io/content?q=Ethiopia+AND+Tigray&sort=newest&size={size}&category=politics,world'
-headers = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0"}
+headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0"}
 conflict_breakout_date = date(2020, 11, 3)
 
 session = HTMLSession()
@@ -65,65 +64,66 @@ for page in range(2, pages+1):
             article.find("h3 > a[href]", first=True).attrs["href"]
         search_results.append(dict(headline=headline, url=link))
 
-search_results = pd.DataFrame(search_results)
-
-live_news = search_results[['live-news' in u for u in search_results.url]]
-
-search_results = search_results[['live-news' not in u for u in search_results.url]]
-search_results['date'] = [re.search("(\d{4}/\d{2}/\d{2})", u).group(1)
-                       for u in search_results.url]
-search_results['date'] = [date.fromisoformat(
-    d.replace("/", "-")) for d in search_results.date]
-
-search_results = search_results[search_results.date >= conflict_breakout_date]
-search_results.to_csv('search-results.csv', index=False)
+search_results_df = pd.DataFrame(search_results)
+Date = []
+for u in search_results_df.url:
+    try: 
+        d = re.search("(\d{4}/\d{2}/\d{2})", u).group(1) 
+        d = date.fromisoformat(d.replace("/", "-"))
+    except AttributeError: 
+        d = date.today() # assign today's date if the url does not contain date
+    Date.append(d)
+        
+search_results_df['date'] = Date
+search_results_df = search_results_df[search_results_df.date >= conflict_breakout_date]
+search_results_df.to_csv('search-results.csv', index=False)
 
 # open each article and then scrape headline, author, contributors,
-# release date, modified date ...
-subset = ["ethiopia" in u or 'tigray' in u for u in search_results.url]
+## release date, modified date ...
+articles_search_results = \
+    search_results_df[['live-news' not in u or 'videos' not in u for u in search_results_df.url]]
+subset = ["ethiopia" in u or 'tigray' in u for u in articles_search_results.url]
 Articles = []
-for arturl in search_results[subset].url:
-    if ('videos' not in arturl):
-        r = session.get(arturl, headers=headers)
-        try:
-            author = r.html.find('.metadata__byline__author',
+for arturl in articles_search_results[subset].url:
+    r = session.get(arturl, headers=headers)
+    try:
+        author = r.html.find('.metadata__byline__author',
                                 first=True).text.replace("By ", "")
-        except AttributeError:
-            author = ""
-        try:
-            update_time = r.html.find(".update-time", first=True).text
-        except AttributeError:
-            update_time = ""
-        try:
-            editorial_source = r.html.find(".el-editorial-source", first=True).text
-        except AttributeError:
-            editorial_source = ""
-        try:
-            contributors = r.html.find(".zn-body__footer", first=True).text
-        except AttributeError:
-            contributors = ""
-        try:
-            intro = r.html.find(".zn-body__paragraph[class*=speakable]",
+    except AttributeError:
+        author = ""
+    try:
+        update_time = r.html.find(".update-time", first=True).text
+    except AttributeError:
+        update_time = ""
+    try:
+        editorial_source = r.html.find(".el-editorial-source", first=True).text
+    except AttributeError:
+        editorial_source = ""
+    try:
+        contributors = r.html.find(".zn-body__footer", first=True).text
+    except AttributeError:
+        contributors = ""
+    try:
+        intro = r.html.find(".zn-body__paragraph[class*=speakable]",
                                 first=True).text.strip(editorial_source)
-        except AttributeError:
-            intro = ""
-        Articles.append(dict(
-            url=arturl,
-            author=author,
-            contributors=contributors,
-            editorial_source=editorial_source,
-            update_time=update_time,
-            intro=intro))
-    else:
-        pass
+    except AttributeError:
+        intro = ""
+    Articles.append(dict(
+        url=arturl,
+        author=author,
+        contributors=contributors,
+        editorial_source=editorial_source,
+        update_time=update_time,
+        intro=intro))
+ 
 
 Articles = pd.DataFrame(Articles)
-article_news = search_results.merge(Articles, on='url')
+article_news = articles_search_results.merge(Articles, on='url')
 article_news.to_csv("articles-meta.csv", index=False)
 
 # scrape video reports
 videos = []
-for arturl in search_results[subset and ['videos' in u for u in search_results.url]].url:
+for arturl in search_results_df[subset and ['videos' in u for u in search_results_df.url]].url:
     r = session.get(arturl, headers=headers)
     try:
         author = r.html.find('.media__video-description', first=True).text
@@ -149,12 +149,13 @@ for arturl in search_results[subset and ['videos' in u for u in search_results.u
         intro=intro))
 
 video_news = pd.DataFrame(videos)
-video_news = search_results[[ 'videos' in u for u in search_results.url]].\
+video_news = search_results_df[[ 'videos' in u for u in search_results_df.url]].\
     merge(video_news, on='url')
 video_news = video_news.loc[:, video_news.columns!='contributors']
 video_news.to_csv("video-reports.csv", index=False)
 
 # scrape posts under live-news
+live_news = search_results_df[['live-news' in u for u in search_results_df.url]]
 live_news_out = []
 live_news = live_news[['Ethiopia' in u or 'Tigray' in u
                        for u in live_news.headline]]
