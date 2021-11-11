@@ -27,7 +27,7 @@ if (interactive):
     webbrowser.open(search_url)
 
 # scrape CNN's coverage of the conflict
-query = "Ethiopia, Tigray"
+query = "Ethiopia Tigray"
 size = 20
 url = f"https://edition.cnn.com/search?size={size}&q={query}&category=us,politics,world,opinion&sort=newest"
 #url = f'https://search.api.cnn.io/content?q=Ethiopia+AND+Tigray&sort=newest&size={size}&category=politics,world'
@@ -43,7 +43,7 @@ count = r.html.find(".cnn-search__results-count", first=True).text
 regex = r"(\d{1,}-\d{1,}) out of (\d{1,})"
 # results displayed per page, num of results
 displays, out_of = re.findall(regex, count)[0]
-pages = int(out_of) % size
+pages = int(out_of) // size + 1
 
 search_results_page1 = r.html.find('.cnn-search__result-headline')
 search_results = []
@@ -53,7 +53,7 @@ for article in search_results_page1:
     search_results.append(dict(headline=headline, url=link))
 
 # from the second page onwards
-for page in range(2, pages+1):
+for page in range(2, pages):
     page_url = url + f"&page={page}&from={size * (page-1)}"
     res = session.get(page_url, headers=headers)
     res.html.render(sleep=1, scrolldown=5, timeout=1000)
@@ -82,10 +82,10 @@ search_results_df.to_csv('search-results.csv', index=False)
 # open each article and then scrape headline, author, contributors,
 ## release date, modified date ...
 articles_search_results = \
-    search_results_df[['live-news' not in u and 'videos' not in u for u in search_results_df.url]].reset_index()
-# subset = ["ethiopia" in u or 'tigray' in u for u in articles_search_results.url]
+    search_results_df[['live-news' not in u or 'videos' not in u for u in search_results_df.url]]
+subset = ["ethiopia" in u or 'tigray' in u for u in articles_search_results.url]
 Articles = []
-for arturl in articles_search_results.url:
+for arturl in articles_search_results[subset].url:
     r = session.get(arturl, headers=headers)
     try:
         author = r.html.find('.metadata__byline__author',
@@ -117,7 +117,6 @@ for arturl in articles_search_results.url:
         update_time=update_time,
         intro=intro))
  
-
 Articles = pd.DataFrame(Articles)
 article_news = articles_search_results.merge(Articles, on='url')
 article_news.to_csv("articles-meta.csv", index=False)

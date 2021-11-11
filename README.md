@@ -16,8 +16,8 @@ Triggered by a thought-provoking
 
 ## Goal of this repo
 
--   Produce a list of CNN’s stories ever since the conflict broke out,
-    November 4, 2020.
+-   Extract stories–pertaining to the conflict–that CNN published ever
+    since the conflict broke out, November 4, 2020.
 
 ## So far
 
