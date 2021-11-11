@@ -1,12 +1,8 @@
 ---
-title: "**Ethiopian Conflict: CNN-International (CNNI)'s Coverage**"
-output: 
-  github_document:
-    md_extensions: -autolink_bare_uris+hard_line_breaks
-  keep_md: yes
-always_allow_html: true
+output: rmarkdown::github_document
 ---
 
+# **Ethiopian Conflict: CNN-International (CNNI)'s Coverage**
 
 Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/status/1439266110679965708) by [Mekdes Asefa](https://twitter.com/mekdes_asefa)
 
@@ -26,15 +22,19 @@ Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/statu
 - [x] **Articles**: 
     I have managed to scrape news articles that CNN published ever since. You can find the details about these news articles in this [csv file](articles-meta.csv), in the same directory. 
 
-```{r, tidy=TRUE}
+```{r, results='asis', tidy=TRUE}
 articles = read.csv('articles-meta.csv')
 articles$url = with(articles, 
                     sprintf('<a href="%s">%s</a>', 
                             url, basename(sub('/index.html', '', url)))
                     )
-DT::datatable(articles, 
-              options = list(pageLength=5), filter = "top", escape = F)
+# DT::datatable(articles, 
+#              options = list(pageLength=5), filter = "top", escape = F)
+
+knitr::kable(head(articles), 
+             format = 'markdown', booktab=T)
 ```
+
 
 <br> <br>
 
