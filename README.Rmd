@@ -1,5 +1,6 @@
 ---
 output: rmarkdown::github_document
+always_allow_html: yes
 ---
 
 # **Ethiopian Conflict: CNN-International (CNNI)'s Coverage**
@@ -22,23 +23,25 @@ Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/statu
 - [x] **Articles**: 
     I have managed to scrape news articles that CNN published ever since. You can find the details about these news articles in this [csv file](articles-meta.csv), in the same directory. 
 
-```{r, results='asis', tidy=TRUE}
+```{r, results='asis', echo=F, tidy=TRUE}
 articles = read.csv('articles-meta.csv')
 articles$url = with(articles, 
                     sprintf('<a href="%s">%s</a>', 
                             url, basename(sub('/index.html', '', url)))
                     )
 # DT::datatable(articles, 
-#              options = list(pageLength=5), filter = "top", escape = F)
+#               options = list(pageLength=5), filter = "top", escape = F) 
 
-knitr::kable(head(articles), 
-             format = 'markdown', booktab=T)
+kableExtra::kbl(head(articles, 5), 
+                format = "html",
+                caption = "<strong style=\"font-size:18pt\"> The latest 5 articles </strong>", booktabs=T, escape = F) |> 
+  kableExtra::kable_styling(bootstrap_options = c('striped', 'condensed'))
 ```
 
 
 <br> <br>
 
-CNN does not produce news only in an article form. There are live news coverages with a collection of short "posts" (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)), and video reporting (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn)) as well. This repo contains details about such coverage too. 
+CNN does not produce news only in an article form. There is live news coverage with a collection of short "posts" (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)), and video reporting (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn)) as well. This repo contains details about such coverage too. 
 
 - [x] **Live-news coverage** [here](live-news-articles.csv)
 
