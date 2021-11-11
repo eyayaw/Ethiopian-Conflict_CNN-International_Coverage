@@ -61,6 +61,92 @@ intro
 <tbody>
 <tr>
 <td style="text-align:left;">
+Ethiopia’s leader said he would bury his enemy. His spokeswoman doesn’t
+think it was incitement to violence
+</td>
+<td style="text-align:left;">
+<a href="https://www.cnn.com/2021/11/10/africa/ethiopia-billene-seyoum-getachew-reda-ctw-interview-intl/index.html">ethiopia-billene-seyoum-getachew-reda-ctw-interview-intl</a>
+</td>
+<td style="text-align:left;">
+2021-11-10
+</td>
+<td style="text-align:left;">
+Eliza Mackintosh, CNN
+</td>
+<td style="text-align:left;">
+CNN’s Richard Roth and Jennifer Hansler contributed to this report.
+</td>
+<td style="text-align:left;">
+(CNN)
+</td>
+<td style="text-align:left;">
+Updated 2214 GMT (0614 HKT) November 10, 2021
+</td>
+<td style="text-align:left;">
+Ethiopian Prime Minister Abiy Ahmed pledged to bury his government’s
+enemies “with our blood” last week, in an inflammatory speech marking
+the one-year anniversary of the war in the country’s northern Tigray
+region.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Amnesty International accuses Tigrayan rebel fighters of gang raping
+women in Ethiopia
+</td>
+<td style="text-align:left;">
+<a href="https://www.cnn.com/2021/11/10/africa/amnesty-ethiopia-tplf-rape-intl/index.html">amnesty-ethiopia-tplf-rape-intl</a>
+</td>
+<td style="text-align:left;">
+2021-11-10
+</td>
+<td style="text-align:left;">
+Katie Polglase, Noon Salih and Zeena Saifi, CNN
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(CNN)
+</td>
+<td style="text-align:left;">
+Updated 1707 GMT (0107 HKT) November 10, 2021
+</td>
+<td style="text-align:left;">
+Fighters from Ethiopia’s northern Tigray region have been accused of
+gang rape and physical assault by 16 women in the neighboring Amhara
+region, according to a report released by Amnesty International on
+Wednesday.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ethiopia’s war is echoing on the streets of Washington
+</td>
+<td style="text-align:left;">
+<a href="https://www.cnn.com/2021/11/09/us/ethiopia-conflict-ethiopian-americans/index.html">ethiopia-conflict-ethiopian-americans</a>
+</td>
+<td style="text-align:left;">
+2021-11-09
+</td>
+<td style="text-align:left;">
+Catherine E. Shoichet, CNN
+</td>
+<td style="text-align:left;">
+CNN’s Chandelis Duster and Eliza Mackintosh contributed to this report.
+</td>
+<td style="text-align:left;">
+Washington (CNN)
+</td>
+<td style="text-align:left;">
+Updated 1823 GMT (0223 HKT) November 9, 2021
+</td>
+<td style="text-align:left;">
+A radio host says she wakes up every morning wondering if her mom is
+alive.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 Young mother and elderly priest among Tigrayans arrested in Addis Ababa,
 witnesses say
 </td>
@@ -114,85 +200,6 @@ Updated 1407 GMT (2207 HKT) November 6, 2021
 Ethiopia’s military is calling on veterans to rejoin the army as two
 aligned rebel groups threaten the capital, marking the latest sign the
 government is marshaling its power to defend Addis Ababa.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Armed groups join forces in Ethiopia in biggest threat yet to embattled
-Prime Minister Abiy Ahmed
-</td>
-<td style="text-align:left;">
-<a href="https://www.cnn.com/2021/11/05/africa/ethiopia-conflict-opposition-coalition-abiy-ahmed-intl/index.html">ethiopia-conflict-opposition-coalition-abiy-ahmed-intl</a>
-</td>
-<td style="text-align:left;">
-2021-11-05
-</td>
-<td style="text-align:left;">
-Eliza Mackintosh, CNN
-</td>
-<td style="text-align:left;">
-CNN’s David McKenzie and Jennifer Hansler contributed to this report.
-</td>
-<td style="text-align:left;">
-(CNN)
-</td>
-<td style="text-align:left;">
-Updated 2235 GMT (0635 HKT) November 5, 2021
-</td>
-<td style="text-align:left;">
-Armed groups fighting Ethiopia’s central government are swelling in
-numbers as they advance on the capital, Addis Ababa, posing the biggest
-threat to embattled Prime Minister Abiy Ahmed’s rule since a bloody
-year-long conflict began in the country’s northern Tigray region a year
-ago.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-State Department establishes task force on Ethiopia as conflict rages
-</td>
-<td style="text-align:left;">
-<a href="https://www.cnn.com/2021/11/05/politics/state-department-ethiopia-task-force/index.html">state-department-ethiopia-task-force</a>
-</td>
-<td style="text-align:left;">
-2021-11-05
-</td>
-<td style="text-align:left;">
-Jennifer Hansler, CNN
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-(CNN)
-</td>
-<td style="text-align:left;">
-Updated 2215 GMT (0615 HKT) November 5, 2021
-</td>
-<td style="text-align:left;">
-The State Department has established a new task force to oversee its
-“planning, management and logistics related to events in Ethiopia,” a
-spokesperson confirmed Friday.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ethiopia crisis deepens as nine groups form anti-government alliance
-</td>
-<td style="text-align:left;">
-<a href="https://www.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html">ethiopia-conflict-updates-11-5-intl</a>
-</td>
-<td style="text-align:left;">
-2021-11-09
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
 </td>
 </tr>
 </tbody>

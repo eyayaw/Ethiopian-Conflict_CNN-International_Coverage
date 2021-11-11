@@ -27,9 +27,9 @@ if (interactive):
     webbrowser.open(search_url)
 
 # scrape CNN's coverage of the conflict
-query = "Ethiopia+AND+Tigray"
+query = "Ethiopia, Tigray"
 size = 20
-url = f"https://edition.cnn.com/search?size={size}&q=Ethiopia+AND+Tigray&category=us,politics,world,opinion&sort=newest"
+url = f"https://edition.cnn.com/search?size={size}&q={query}&category=us,politics,world,opinion&sort=newest"
 #url = f'https://search.api.cnn.io/content?q=Ethiopia+AND+Tigray&sort=newest&size={size}&category=politics,world'
 headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0"}
 conflict_breakout_date = date(2020, 11, 3)
@@ -71,20 +71,21 @@ for u in search_results_df.url:
         d = re.search("(\d{4}/\d{2}/\d{2})", u).group(1) 
         d = date.fromisoformat(d.replace("/", "-"))
     except AttributeError: 
-        d = date.today() # assign today's date if the url does not contain date
+        d = "" # date.today() # assign today's date if the url does not contain date
     Date.append(d)
         
 search_results_df['date'] = Date
-search_results_df = search_results_df[search_results_df.date >= conflict_breakout_date]
+cond = [d >= conflict_breakout_date if d != "" else True for d in search_results_df.date]
+search_results_df = search_results_df[cond]
 search_results_df.to_csv('search-results.csv', index=False)
 
 # open each article and then scrape headline, author, contributors,
 ## release date, modified date ...
 articles_search_results = \
-    search_results_df[['live-news' not in u or 'videos' not in u for u in search_results_df.url]]
-subset = ["ethiopia" in u or 'tigray' in u for u in articles_search_results.url]
+    search_results_df[['live-news' not in u and 'videos' not in u for u in search_results_df.url]].reset_index()
+# subset = ["ethiopia" in u or 'tigray' in u for u in articles_search_results.url]
 Articles = []
-for arturl in articles_search_results[subset].url:
+for arturl in articles_search_results.url:
     r = session.get(arturl, headers=headers)
     try:
         author = r.html.find('.metadata__byline__author',
@@ -123,7 +124,7 @@ article_news.to_csv("articles-meta.csv", index=False)
 
 # scrape video reports
 videos = []
-for arturl in search_results_df[subset and ['videos' in u for u in search_results_df.url]].url:
+for arturl in search_results_df[['videos' in u for u in search_results_df.url]].url:
     r = session.get(arturl, headers=headers)
     try:
         author = r.html.find('.media__video-description', first=True).text
