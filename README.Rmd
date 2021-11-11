@@ -1,9 +1,10 @@
 ---
 title: "**Ethiopian Conflict: CNN-International (CNNI)'s Coverage**"
 output: 
-  html_document:
-    df_print: kable
-    keep_md: yes
+  github_document:
+    md_extensions: -autolink_bare_uris+hard_line_breaks
+  keep_md: yes
+always_allow_html: true
 ---
 
 
@@ -22,10 +23,10 @@ Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/statu
 
 ## So far
 
-* [x] **Articles**: 
+- [x] **Articles**: 
     I have managed to scrape news articles that CNN published ever since. You can find the details about these news articles in this [csv file](articles-meta.csv), in the same directory. 
 
-```{r, results='markup'}
+```{r, tidy=TRUE}
 articles = read.csv('articles-meta.csv')
 articles$url = with(articles, 
                     sprintf('<a href="%s">%s</a>', 
@@ -37,20 +38,20 @@ DT::datatable(articles,
 
 <br> <br>
 
-CNN does not produce news only in an article form. There are live news coverages with a collection of short "posts" (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)), and video reportings (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn)) as well. This repo contains details about such coverages too. 
+CNN does not produce news only in an article form. There are live news coverages with a collection of short "posts" (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)), and video reporting (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn)) as well. This repo contains details about such coverage too. 
 
-* [x] **Live-news coverage** [here](live-news-articles.csv)
+- [x] **Live-news coverage** [here](live-news-articles.csv)
 
-* [x] **Video reports** [here](video-reports.csv)
+- [x] **Video reports** [here](video-reports.csv)
 
 
 ## To-Do
 
-* [ ] Automate with `github actions`
-* [ ] Do an xploratory analysis
-* [ ] Download full body of the articles and do some text analysis
-* [ ] Download images and vidoes
-* [ ] Do the same for reuters, bbc, and the likes
+- [ ] Automate with `github actions`
+- [ ] Do an exploratory analysis
+- [ ] Download full body of the articles and do some text analysis
+- [ ] Download images and videos
+- [ ] Do the same for Reuters, BBC, and the likes
 
 
 
