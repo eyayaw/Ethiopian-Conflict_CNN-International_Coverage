@@ -7,9 +7,6 @@ from functools import reduce
 import __main__ as main
 interactive = hasattr(main, '__file__')
 
-# like R's `paste`
-def paste(ls, collapse=" "):
-    return reduce(lambda x, y: str(x) + collapse + str(y), ls)
 
 # Google search query
 params = (
@@ -176,7 +173,7 @@ for url in live_news.url:
         url=url,
         headline=headline,
         main_author=author,
-        posts=paste(header, collapse="\n\n"),
+        posts="\n\n".join(header),
         nposts=nposts)
         )
 

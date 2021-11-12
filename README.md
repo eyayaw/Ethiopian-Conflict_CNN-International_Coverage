@@ -53,9 +53,6 @@ editorial_source
 <th style="text-align:left;">
 update_time
 </th>
-<th style="text-align:left;">
-intro
-</th>
 </tr>
 </thead>
 <tbody>
@@ -82,12 +79,6 @@ CNN’s Richard Roth and Jennifer Hansler contributed to this report.
 <td style="text-align:left;">
 Updated 2214 GMT (0614 HKT) November 10, 2021
 </td>
-<td style="text-align:left;">
-Ethiopian Prime Minister Abiy Ahmed pledged to bury his government’s
-enemies “with our blood” last week, in an inflammatory speech marking
-the one-year anniversary of the war in the country’s northern Tigray
-region.
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -110,12 +101,6 @@ Katie Polglase, Noon Salih and Zeena Saifi, CNN
 </td>
 <td style="text-align:left;">
 Updated 1707 GMT (0107 HKT) November 10, 2021
-</td>
-<td style="text-align:left;">
-Fighters from Ethiopia’s northern Tigray region have been accused of
-gang rape and physical assault by 16 women in the neighboring Amhara
-region, according to a report released by Amnesty International on
-Wednesday.
 </td>
 </tr>
 <tr>
@@ -140,10 +125,6 @@ Washington (CNN)
 <td style="text-align:left;">
 Updated 1823 GMT (0223 HKT) November 9, 2021
 </td>
-<td style="text-align:left;">
-A radio host says she wakes up every morning wondering if her mom is
-alive.
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -166,11 +147,6 @@ Katie Polglase, Gianluca Mezzofiore and Richard Allen Greene, CNN
 </td>
 <td style="text-align:left;">
 Updated 2247 GMT (0647 HKT) November 8, 2021
-</td>
-<td style="text-align:left;">
-Witnesses say Tigrayans are being arrested in Addis Ababa in a wave of
-alleged ethnic targeting by authorities, after a year-long conflict in
-Ethiopia’s northern Tigray region.
 </td>
 </tr>
 <tr>
@@ -195,11 +171,6 @@ CNN’s Eliza Mackintosh and Kara Fox contributed to this report.
 </td>
 <td style="text-align:left;">
 Updated 1407 GMT (2207 HKT) November 6, 2021
-</td>
-<td style="text-align:left;">
-Ethiopia’s military is calling on veterans to rejoin the army as two
-aligned rebel groups threaten the capital, marking the latest sign the
-government is marshaling its power to defend Addis Ababa.
 </td>
 </tr>
 </tbody>

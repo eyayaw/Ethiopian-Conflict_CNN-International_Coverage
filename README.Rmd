@@ -32,7 +32,7 @@ articles$url = with(articles,
 # DT::datatable(articles, 
 #               options = list(pageLength=5), filter = "top", escape = F) 
 
-kableExtra::kbl(head(articles, 5), 
+kableExtra::kbl(head(articles[, setdiff(names(articles), "intro")], 5), 
                 format = "html",
                 caption = "<strong style=\"font-size:18pt\"> The latest 5 articles </strong>", booktabs=T, escape = F) |> 
   kableExtra::kable_styling(bootstrap_options = c('striped', 'condensed'))
