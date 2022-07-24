@@ -3,11 +3,13 @@ output: rmarkdown::github_document
 always_allow_html: yes
 ---
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # **Ethiopian Conflict: CNN-International (CNNI)'s Coverage**
 
-Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/status/1439266110679965708) by [Mekdes Asefa](https://twitter.com/mekdes_asefa)
+Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/status/1439266110679965708) by [Mekdes Asefa](https://twitter.com/mekdes_asefa).
 
-## The start of the conflict
+## The the conflict started on
 > **November 03, 2021** 
 
 ## How has cnni covered the conflict? 
@@ -24,24 +26,25 @@ Triggered by a thought-provoking [thread](https://twitter.com/mekdes_asefa/statu
     I have managed to scrape news articles that CNN published ever since. You can find the details about these news articles in this [csv file](articles-meta.csv), in the same directory. 
 
 ```{r, results='asis', echo=F, tidy=TRUE}
-articles = read.csv('articles-meta.csv')
-articles$url = with(articles, 
-                    sprintf('<a href="%s">%s</a>', 
-                            url, basename(sub('/index.html', '', url)))
-                    )
-# DT::datatable(articles, 
-#               options = list(pageLength=5), filter = "top", escape = F) 
+articles = read.csv("articles-meta.csv")
+articles$url = with(
+  articles,
+  sprintf('<a href="%s">%s</a>',url, basename(sub("/index.html", "", url)))
+  )
 
-kableExtra::kbl(head(articles[, setdiff(names(articles), "intro")], 5), 
-                format = "html",
-                caption = "<strong style=\"font-size:18pt\"> The latest 5 articles </strong>", booktabs=T, escape = F) |> 
-  kableExtra::kable_styling(bootstrap_options = c('striped', 'condensed'))
+kableExtra::kbl(
+  head(articles[, setdiff(names(articles), "intro")], 5),
+  format = "html",
+  caption = "<strong style=\"font-size:18pt\"> The latest 5 articles </strong>", 
+  booktabs = TRUE, escape = FALSE
+) |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"))
 ```
 
 
 <br> <br>
 
-CNN does not produce news only in an article form. There is live news coverage with a collection of short "posts" (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)), and video reporting (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn)) as well. This repo contains details about such coverage too. 
+Apart from articles, CNN does produce news in other forms too. There is live news coverage with a collection of short "posts" (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)), and video reporting (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn)) as well. This repo contains details about such coverage too. 
 
 - [x] **Live-news coverage** [here](live-news-articles.csv)
 
@@ -50,7 +53,7 @@ CNN does not produce news only in an article form. There is live news coverage w
 
 ## To-Do
 
-- [ ] Automate with `github actions`
+- [ ] Automate with `GitHub Actions`
 - [ ] Do an exploratory analysis
 - [ ] Download full body of the articles and do some text analysis
 - [ ] Download images and videos

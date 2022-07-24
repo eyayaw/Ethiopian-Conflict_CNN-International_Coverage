@@ -1,11 +1,13 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # **Ethiopian Conflict: CNN-International (CNNI)’s Coverage**
 
 Triggered by a thought-provoking
 [thread](https://twitter.com/mekdes_asefa/status/1439266110679965708) by
-[Mekdes Asefa](https://twitter.com/mekdes_asefa)
+[Mekdes Asefa](https://twitter.com/mekdes_asefa).
 
-## The start of the conflict
+## The the conflict started on
 
 > **November 03, 2021**
 
@@ -178,8 +180,8 @@ Updated 1407 GMT (2207 HKT) November 6, 2021
 
 <br> <br>
 
-CNN does not produce news only in an article form. There is live news
-coverage with a collection of short “posts”
+Apart from articles, CNN does produce news in other forms too. There is
+live news coverage with a collection of short “posts”
 (e.g. [here](https://edition.cnn.com/africa/live-news/ethiopia-conflict-updates-11-5-intl/index.html)),
 and video reporting
 (e.g. [here](https://edition.cnn.com/videos/world/2021/06/13/ethiopia-famine-thousands-facing-starvation-busari-lklv-nr-intl-vpx.cnn))
@@ -191,7 +193,7 @@ as well. This repo contains details about such coverage too.
 
 ## To-Do
 
--   [ ] Automate with `github actions`
+-   [ ] Automate with `GitHub Actions`
 -   [ ] Do an exploratory analysis
 -   [ ] Download full body of the articles and do some text analysis
 -   [ ] Download images and videos
